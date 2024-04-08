@@ -9,14 +9,18 @@
 /**********************************************************************/
 /* define tokens + keywords                                           */
 /**********************************************************************/
-enum tvalues { program = 257, id, input, output, var, integer };
+enum tvalues { program = 257, id, input, output, var, integer, begin, operand, number, end };
 /**********************************************************************/
 /* Global Data Objects                                                */
 /**********************************************************************/
 int  lookahead=0;
 int  is_parse_ok=1;
 int tokens[] = {program, id, '(', input, ',', output, ')', ';', 
-                var, id, ',', id, ',', id, ':', integer, ';', '$' };
+                var, id, ',', id, ',', id, ':', integer, ';',
+                begin, 
+                id, operand, id, '+', id, '*', number, 
+                end, '.',
+                 '$' };
 /**********************************************************************/
 /* Get the nexttoken from the buffer  (simulate the lexer)            */
 /**********************************************************************/
@@ -45,13 +49,34 @@ void match(int t)
 void program_header()
 {
    if (DEBUG) printf("\n *** In  program_header");
-   match(program); match(id); match('('); match(input);
-   match(','); match(output); match(')'); match(';');
+   match(program); match(id); match('('); match(input); match(','); match(output); match(')'); match(';');
    }
+void type(){
+
+}
+void id_list(){
+   if (DEBUG) printf("\n *** In  in id_list");
+   //match(id);
+}
+void var_dec(){
+   if (DEBUG) printf("\n *** In  in var_dec");
+   id_list(); match(':'); type(); match(';');
+}
+
+void var_dec_list(){
+   if (DEBUG) printf("\n *** In  in var_dec_list");
+   var_dec();
+}
 
 void var_part(){
-    if (DEBUG) printf("\n *** In  program_header");
-    match(var);
+    if (DEBUG) printf("\n *** In  in var_part");
+    match(var); match(id); match(','); match(id); match(','); match(id); match(':'); match(integer); match(';');
+    //var_dec_list();
+}
+
+void stat_part(){
+   if (DEBUG) printf("\n *** In  in stat_part");
+   match(begin); match(id); match(operand); match(id); match('+'); match(id); match('*'); match(number); match(end), match('.');
 }
 
 int prog()
@@ -60,6 +85,7 @@ int prog()
    lookahead = get_token();        // get the first token
    program_header();               // call the first grammar rule
    var_part();
+   stat_part();
    return is_parse_ok;             // status indicator
    }
 /**********************************************************************/
