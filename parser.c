@@ -1,101 +1,176 @@
 /**********************************************************************/
-/* lab 1 DVG C01 - Happy Hacker version  Donald Ross  060422          */
+/* lab 1 DVG C01 - Parser OBJECT                                      */
 /**********************************************************************/
+
 /**********************************************************************/
 /* Include files                                                      */
 /**********************************************************************/
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+/**********************************************************************/
+/* Other OBJECT's METHODS (IMPORTED)                                  */
+/**********************************************************************/
+ #include "keytoktab.h"              /* when the keytoktab is added   */
+/* #include "lexer.h"       */       /* when the lexer     is added   */
+/* #include "symtab.h"      */       /* when the symtab    is added   */
+/* #include "optab.h"       */       /* when the optab     is added   */
+
+/**********************************************************************/
+/* OBJECT ATTRIBUTES FOR THIS OBJECT (C MODULE)                       */
+/**********************************************************************/
 #define DEBUG 1
+static int  lookahead=0;
+static int  is_parse_ok=1;
+
 /**********************************************************************/
-/* define tokens + keywords                                           */
+/* RAPID PROTOTYPING - simulate the token stream & lexer (get_token)  */
 /**********************************************************************/
-enum tvalues { program = 257, id, input, output, var, integer, begin, operand, number, end };
+/* define tokens + keywords NB: remove this when keytoktab.h is added */
 /**********************************************************************/
-/* Global Data Objects                                                */
+//enum tvalues { program = 257, id, input, output };
 /**********************************************************************/
-int  lookahead=0;
-int  is_parse_ok=1;
-int tokens[] = {program, id, '(', input, ',', output, ')', ';', 
+/* Simulate the token stream for a given program                      */
+/**********************************************************************/
+static int tokens[] = {program, id, '(', input, ',', output, ')', ';',
                 var, id, ',', id, ',', id, ':', integer, ';',
                 begin, 
-                id, operand, id, '+', id, '*', number, 
+                id, assign, id, '+', id, '*', number, 
                 end, '.',
-                 '$' };
+               '$' };
+
 /**********************************************************************/
-/* Get the nexttoken from the buffer  (simulate the lexer)            */
+/*  Simulate the lexer -- get the next token from the buffer          */
 /**********************************************************************/
-int get_token()
+static int pget_token()
 {  
    static int i=0;
    if (tokens[i] != '$') return tokens[i++]; else return '$';
    }
+
+/**********************************************************************/
+/*  PRIVATE METHODS for this OBJECT  (using "static" in C)            */
+/**********************************************************************/
+
 /**********************************************************************/
 /* The Parser functions                                               */
 /**********************************************************************/
-void match(int t)
+static void match(int t)
 {
-   if(DEBUG) printf("\n --------In match expected: %3d, found: %3d", 
-                     t, lookahead);
-   if (lookahead == t) lookahead = get_token();
+   if(DEBUG) printf("\n --------In match expected: %4d, found: %4d",
+                    t, lookahead);
+   if (lookahead == t) lookahead = pget_token();
    else {
       is_parse_ok=0;
-      printf("\n *** Unexpected Token: expected: %3d found: %3d",
+      printf("\n *** Unexpected Token: expected: %4d found: %4d (in match)",
               t, lookahead);
       }
    }
+
 /**********************************************************************/
 /* The grammar functions                                              */
 /**********************************************************************/
-void program_header()
+static void program_header()
 {
    if (DEBUG) printf("\n *** In  program_header");
-   match(program); match(id); match('('); match(input); match(','); match(output); match(')'); match(';');
+   match(program); match(id); match('('); match(input);
+   match(','); match(output); match(')'); match(';');
    }
-void type(){
+   
+                    /*var_part*/
 
-}
-void id_list(){
-   if (DEBUG) printf("\n *** In  in id_list");
-   //match(id);
-}
-void var_dec(){
-   if (DEBUG) printf("\n *** In  in var_dec");
-   id_list(); match(':'); type(); match(';');
+static void type(){
+    if(lookahead==integer){
+        match(integer);
+    }
 }
 
-void var_dec_list(){
-   if (DEBUG) printf("\n *** In  in var_dec_list");
-   var_dec();
+static void id_list(){
+    match(id);
+    if (lookahead == ',') {
+        match(',');
+        id_list();
+    }
 }
 
-void var_part(){
+static void var_dec(){
+    id_list();
+    match(':');
+    type();
+    match(';');
+}
+
+static void var_dec_list(){
+    var_dec();
+    if(lookahead == id){
+        var_dec_list();
+    }
+}
+
+static void var_part(){
     if (DEBUG) printf("\n *** In  in var_part");
-    match(var); match(id); match(','); match(id); match(','); match(id); match(':'); match(integer); match(';');
-    //var_dec_list();
+    match(var);
+    var_dec_list();
+
 }
 
-void stat_part(){
-   if (DEBUG) printf("\n *** In  in stat_part");
-   match(begin); match(id); match(operand); match(id); match('+'); match(id); match('*'); match(number); match(end), match('.');
+                    /*stat_part*/
+
+static void expr(){
+    
 }
 
-int prog()
+
+static void assign_stat(){
+    match(id);
+    match(assign);
+    expr();
+}
+
+static void stat(){
+    assign_stat();
+    
+    
+    match(id); 
+    match('+');
+    match(id);
+    match('*');
+    match(number);
+}
+
+static void stat_list(){
+    stat();
+    if(lookahead==';'){
+        match(';');
+        stat_list();
+    }
+}
+
+static void stat_part(){
+    if (DEBUG) printf("\n *** In  in stat_part");
+    
+    match(begin);
+    stat_list();
+    match(end);
+    match('.');
+}
+
+
+/**********************************************************************/
+/*  PUBLIC METHODS for this OBJECT  (EXPORTED)                        */
+/**********************************************************************/
+
+int parser()
 {
-   if (DEBUG) printf("\n *** In  program");
-   lookahead = get_token();        // get the first token
+   if (DEBUG) printf("\n *** In  parser");
+   lookahead = pget_token();       // get the first token
    program_header();               // call the first grammar rule
    var_part();
    stat_part();
    return is_parse_ok;             // status indicator
    }
-/**********************************************************************/
-/* The main function (the driver)                                     */
-/**********************************************************************/
-int main()
-{   
-   return prog() ? printf(" \n Parse Successful! \n")
-                 : printf(" \n Parse Failed! \n");
-   }
+
 /**********************************************************************/
 /* End of code                                                        */
 /**********************************************************************/

@@ -1,0 +1,24 @@
+
+ *** In  parser
+ *** In  program_header
+ --------In match expected:  268, found:  268
+ --------In match expected:  258, found:  258
+ --------In match expected:   40, found:   40
+ --------In match expected:  269, found:  269
+ --------In match expected:   44, found:   44
+ --------In match expected:  270, found:  270
+ --------In match expected:   41, found:   41
+ --------In match expected:   59, found:   59
+ *** In  in var_part
+ --------In match expected:  271, found:  271
+ --------In match expected:  258, found:  258
+ --------In match expected:   44, found:   44
+ --------In match expected:  258, found:  258
+ --------In match expected:   44, found:   44
+ --------In match expected:  258, found:  258
+ --------In match expected:   58, found:   58
+ *** In  id_list
+ --------In match expected:   59, found:  275
+ *** Unexpected Token: expected:   59 found:  275 (in match)
+ *** In  in stat_part 
+ Parse Failed! 

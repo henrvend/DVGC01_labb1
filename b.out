@@ -1,0 +1,24 @@
+*** Starting build of parser frame
+*** Compiling each module
+*** Compiling parser 2, 3, 4, 5
+*** End of separate module compilation
+*** Save old parser output
+*** Build and test the frame demo
+*** Running test
+
+ *** In  parser
+ *** In  program_header
+ --------In match expected:  257, found:  257
+ --------In match expected:  258, found:  258
+ --------In match expected:   40, found:   40
+ --------In match expected:  259, found:  259
+ --------In match expected:   44, found:   44
+ --------In match expected:  260, found:  260
+ --------In match expected:   41, found:   41
+ --------In match expected:   59, found:   59 
+ Parse Successful! 
+*** Comparing current and previous outputs 
+*** End of comparison
+*** Tidy up ...
+*** End of tidy up
+*** End of parser test
