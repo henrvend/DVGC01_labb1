@@ -34,11 +34,11 @@ static int  is_parse_ok=1;
 /* Simulate the token stream for a given program                      */
 /**********************************************************************/
 static int tokens[] = {program, id, '(', input, ',', output, ')', ';',
-                var, id, ',', id, ',', id, ':', integer, ';',
-                begin, 
-                id, assign, id, '+', id, '*', number, 
-                end, '.',
-               '$' };
+                    var, id, ',', id, ',', id, ':', integer, ';',
+                    begin, 
+                    id, assign, id, '+', id, '*', number, 
+                    end, '.',
+                    '$' };
 
 /**********************************************************************/
 /*  Simulate the lexer -- get the next token from the buffer          */
@@ -109,7 +109,7 @@ static void var_dec_list(){
 }
 
 static void var_part(){
-    if (DEBUG) printf("\n *** In  in var_part");
+    if (DEBUG) printf("\n *** In  var_part");
     match(var);
     var_dec_list();
 
@@ -117,8 +117,35 @@ static void var_part(){
 
                     /*stat_part*/
 
+
+static void operand(){
+    if(lookahead==id){
+        match(id);
+    }
+    if(lookahead==number){
+        match(number);
+    }
+}
+
+static void factor(){
+
+}
+
+static void term(){
+    match(id);
+}
+
 static void expr(){
-    
+    term();
+    if(lookahead=='+'){
+        match('+');
+        expr();
+    }
+    match(id); 
+    match('+');
+    match(id);
+    match('*');
+    match(number);
 }
 
 
@@ -129,14 +156,7 @@ static void assign_stat(){
 }
 
 static void stat(){
-    assign_stat();
-    
-    
-    match(id); 
-    match('+');
-    match(id);
-    match('*');
-    match(number);
+    assign_stat();    
 }
 
 static void stat_list(){
@@ -148,7 +168,7 @@ static void stat_list(){
 }
 
 static void stat_part(){
-    if (DEBUG) printf("\n *** In  in stat_part");
+    if (DEBUG) printf("\n *** In  stat_part");
     
     match(begin);
     stat_list();

@@ -9,7 +9,7 @@
 /**********************************************************************/
 /* define tokens + keywords                                           */
 /**********************************************************************/
-enum tvalues { program = 257, id, input, output, var, integer, begin, operand, number, end };
+enum tvalues { program = 257, id, input, output, var, integer, begin, assign, number, end };
 /**********************************************************************/
 /* Global Data Objects                                                */
 /**********************************************************************/
@@ -18,7 +18,7 @@ int  is_parse_ok=1;
 int tokens[] = {program, id, '(', input, ',', output, ')', ';', 
                 var, id, ',', id, ',', id, ':', integer, ';',
                 begin, 
-                id, operand, id, '+', id, '*', number, 
+                id, assign, id, '+', id, '*', number, 
                 end, '.',
                  '$' };
 /**********************************************************************/
@@ -86,7 +86,8 @@ void var_part(){
 /**********************************************************************/
 
 void stat_list(){
-   match(id); match(operand);  match(id); match('+'); match(id); match('*');match(number);
+   match(id); match(assign);  match(id); match('+');
+   match(id); match('*');match(number);
    
 }
 
