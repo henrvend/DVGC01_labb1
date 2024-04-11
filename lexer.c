@@ -52,7 +52,7 @@ static void get_prog()
 static void pbuffer()
 {
    printf("\n_________________________\n");
-   printf("The Program Text\n");
+   printf("Program Text\n");
    printf("%s", buffer);
    printf("\n_________________________\n");
 }
@@ -63,7 +63,7 @@ static void pbuffer()
 
 static void get_char()
 {
-   printf("\n *** TO BE DONE");
+   lexbuf[plex++] = buffer[pbuf++];
 }
 
 /**********************************************************************/
@@ -78,10 +78,43 @@ static void get_char()
 /**********************************************************************/
 int get_token()
 {  
-   get_prog();
-   pbuffer();
-   
-   return 0;
+   if(pbuf == 0){
+      get_prog();
+      pbuffer();
+   }
+   memset(lexbuf, 0, LEXSIZE);
+   plex = 0;
+  
+
+   /*skip spaces*/
+   while(isspace(buffer[pbuf])){
+      pbuf++;
+   }
+   get_char();
+
+   /*check if digit*/
+   if(isdigit(lexbuf[0])){
+      while(isdigit(buffer[pbuf])){
+         get_char();
+      }
+      return number;
+   }
+
+   /*check if alfabetic*/
+   if(isalpha(lexbuf[0])){
+      while(isalnum(buffer[pbuf])){
+         get_char();
+      }
+      return key2tok(lexbuf);
+   }
+
+   /*check if special char (:=)*/
+   if((lexbuf[0] == ':') && (buffer[pbuf] == '=')) {
+      printf("**************************************************%s***********************************%s", tok2lex(lexbuf[0]),tok2lex(buffer[pbuf-1]));
+      get_char();
+   }
+
+   return lex2tok(lexbuf);
 }
 
 /**********************************************************************/
@@ -89,8 +122,7 @@ int get_token()
 /**********************************************************************/
 char *get_lexeme()
 {
-   printf("\n *** TO BE DONE");
-   return "$";
+   return lexbuf;
 }
 
 /**********************************************************************/
