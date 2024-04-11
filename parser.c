@@ -24,6 +24,8 @@
 static int  lookahead=0;
 static int  is_parse_ok=1;
 
+static int expr();
+
 /**********************************************************************/
 /* RAPID PROTOTYPING - simulate the token stream & lexer (get_token)  */
 /**********************************************************************/
@@ -118,34 +120,54 @@ static void var_part(){
                     /*stat_part*/
 
 
-static void operand(){
-    if(lookahead==id){
+static int operand(){
+
+    int result;
+    if (lookahead == id) {
         match(id);
-    }
-    if(lookahead==number){
+        result=id;
+        return result;
+    } else if (lookahead == number) {
         match(number);
+        result=number;
+        return result;
+    } else{
+        return 0;
     }
+    
 }
 
-static void factor(){
-
+static int factor(){
+    int result;
+        if (lookahead == '(') {
+            match('(');
+            result = expr();
+            match(')');
+        } else {
+            result = operand();
+        }
+    return result;
 }
 
-static void term(){
-    match(id);
+static int term(){
+
+    int result = factor();
+    if (lookahead == '*') {
+        match('*');
+        result *= term();
+    }
+    return result;
 }
 
-static void expr(){
-    term();
+static int expr(){
+
+    int result = term();
     if(lookahead=='+'){
         match('+');
-        expr();
+        result += expr();
     }
-    match(id); 
-    match('+');
-    match(id);
-    match('*');
-    match(number);
+
+    return result;
 }
 
 
