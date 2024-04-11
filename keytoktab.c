@@ -74,7 +74,22 @@ static tab keywordtab[ ] = {
 /**********************************************************************/
 void p_toktab()
 {  
-   printf("\n *** TO BE DONE");
+	printf("\n 			The Program Keywords\n");
+	printf("\nsizeof(keywordtab)%ld, sizeofTab:%ld\n", sizeof(keywordtab), sizeof(tab));
+    printf("________________________________________________________\n");
+    for(int i = 0; i < sizeof(keywordtab) / sizeof(tab) - 1; i++) {
+        printf("%20s %5d\n", keywordtab[i].text, keywordtab[i].token);
+    }
+
+    printf("________________________________________________________\n");
+    printf("			 The Program Tokens\n");
+    printf("________________________________________________________\n");
+	printf("\nsizeof(tokentab)%ld, sizeofTab:%ld\n", sizeof(tokentab), sizeof(tab));
+    for(int i = 0; i < sizeof(tokentab) / sizeof(tab) - 1; i++) {
+        printf("%20s %5d\n", tokentab[i].text, tokentab[i].token);
+    }
+
+    printf("________________________________________________________\n");
 }
 
 /**********************************************************************/
@@ -82,7 +97,24 @@ void p_toktab()
 /**********************************************************************/
 toktyp lex2tok(char * fplex)
 {
-   printf("\n *** TO BE DONE");  return 0;
+	/* Non-keyword tokens */
+   for(int i = 0; i < sizeof(tokentab) / sizeof(tab); i++) {
+        if(!strcmp(tokentab[i].text, fplex)) {
+            return tokentab[i].token;
+        }
+    }
+
+	/* Keyword tokens */
+	for(int i = 0; i < sizeof(keywordtab) / sizeof(tab); i++) {
+        if(!strcmp(keywordtab[i].text, fplex)) {
+            return keywordtab[i].token;
+        }
+    }
+
+	if(isalpha(*fplex)) 
+		return id;
+	else 
+		return number;
    }
 
 /**********************************************************************/
@@ -90,7 +122,12 @@ toktyp lex2tok(char * fplex)
 /**********************************************************************/
 toktyp key2tok(char * fplex)
 {
-   printf("\n *** TO BE DONE");  return 0;
+   for(int i = 0; i < sizeof(keywordtab) / sizeof(tab); i++) {
+		if(!strcmp(keywordtab[i].text, fplex)) {
+			return keywordtab[i].token;
+		}
+	}
+	return id;
    }
 
 /**********************************************************************/
@@ -98,7 +135,20 @@ toktyp key2tok(char * fplex)
 /**********************************************************************/
 char * tok2lex(toktyp ftok)
 {
-   printf("\n *** TO BE DONE");  return 0;
+   for(int i = 0; i < sizeof(tokentab) / sizeof(tab); i++) {
+        if(tokentab[i].token == ftok) {
+            return tokentab[i].text;
+        }
+    }
+
+	/* Keyword tokens */
+	for(int i = 0; i < sizeof(keywordtab) / sizeof(tab); i++) {
+        if(keywordtab[i].token == ftok) {
+            return keywordtab[i].text;
+        }
+    }
+
+    return "TERROR"; 
    }
 
 /**********************************************************************/
