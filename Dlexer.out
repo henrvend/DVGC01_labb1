@@ -1,0 +1,22 @@
+
+ *** TO BE DONE
+_________________________
+The Program Text
+program testok1(input, output);  
+var A, B, C: integer;  
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ token is    5, lexeme is          $ 
+ *** TO BE DONE
+_________________________
+The Program Text
+$
+_________________________
+
+ token is    5, lexeme is          $ 
+

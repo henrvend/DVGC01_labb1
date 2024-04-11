@@ -1,0 +1,37 @@
+
+ *** In  parser
+ *** In  program_header
+ --------In match expected: program, found: program
+ --------In match expected:   id, found:   id
+ --------In match expected:    (, found:    (
+ --------In match expected: input, found: input
+ --------In match expected:    ,, found:    ,
+ --------In match expected: output, found: output
+ --------In match expected:    ), found:    )
+ --------In match expected:    ;, found:    ;
+ *** In  var_part
+ --------In match expected:  var, found:  var
+ --------In match expected:   id, found:   id
+ --------In match expected:    ,, found:    ,
+ --------In match expected:   id, found:   id
+ --------In match expected:    ,, found:    ,
+ --------In match expected:   id, found:   id
+ --------In match expected:    :, found:    :
+ --------In match expected: integer, found: integer
+ --------In match expected:    ;, found:    ;
+ *** In  stat_part
+ --------In match expected: begin, found: begin
+ *** In  stat_part
+ --------In match expected:   id, found:   id
+ --------In match expected:   :=, found:   :=
+ --------In match expected:   id, found:   id
+ --------In match expected:    +, found:    +
+ --------In match expected:   id, found:   id
+ --------In match expected:    *, found:    *
+ --------In match expected: number, found: number
+ *** In  stat_part
+ --------In match expected:  end, found:  end
+ --------In match expected:    ., found:    .
+ *** Out  stat_part
+ *** Out  parser 
+ Parse Successful! 

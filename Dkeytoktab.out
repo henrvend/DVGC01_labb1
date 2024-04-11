@@ -1,8 +1,8 @@
 
 	The Program Keywords
-________________________________________________________
 
-sizeof(keywordtab)160, sizeofTab:16, size: 9
+sizeof(keywordtab)160, sizeofTab:16
+________________________________________________________
    program  268
      input  269
     output  270
@@ -16,7 +16,7 @@ ________________________________________________________
 	The Program Tokens
 ________________________________________________________
 
-sizeof(tokentab)336, sizeofTab:16, size: 20
+sizeof(tokentab)336, sizeofTab:16
         id  258
     number  259
         :=  260
