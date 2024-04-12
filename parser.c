@@ -110,10 +110,23 @@ static void type()
     {
         printf("\n *** In  type");
     }
+    
     if (lookahead == integer)
     {
         match(integer);
+        setv_type(integer);
     }
+    else if (lookahead == real)
+    {
+        match(real);
+        setv_type(real);
+    }
+    else if (lookahead == boolean)
+    {
+        match(boolean);
+        setv_type(boolean);
+    }
+    
     if (DEBUG)
     {
         printf("\n *** Out  type");

@@ -59,7 +59,13 @@ static void set_addr(int ftref, int faddr) { addr[ftref] = faddr; }
 static void addrow(char *fname, toktyp frole, toktyp ftype,
                    int fsize, int faddr)
 {
-   printf("\n *** TO BE DONE");
+   set_name(numrows, fname);
+   set_role(numrows, frole);
+   set_type(numrows, ftype);
+   set_size(numrows, fsize);
+   set_addr(numrows, faddr);
+
+   numrows++;
 }
 /**********************************************************************/
 /*  Initialise the symbol table                                       */
@@ -79,8 +85,16 @@ static void initst()
 /**********************************************************************/
 static int get_ref(char *fpname)
 {
-   printf("\n *** TO BE DONE");
-   return 0;
+   for (int i; i < numrows; i++)
+   {
+      if (name[i] == fpname)
+      {
+         printf(name[i]);
+         return i;
+      }
+   }
+
+   return nfound;
 }
 
 /**********************************************************************/
@@ -91,12 +105,18 @@ static int get_ref(char *fpname)
 /**********************************************************************/
 static void p_symrow(int ftref)
 {
+   // printf("%d",name[0]);
    printf("\n *** TO BE DONE");
 }
 
 void p_symtab()
 {
-   printf("\n *** TO BE DONE");
+   printf("\nTHE SYMBOL TABLE\n");
+   printf("________________________________________________________\n");
+   printf("%-15s %-10s %-10s %-10s %-10s\n", "NAME", "ROLE", "TYPE", "SIZE", "ADDR");
+   printf("________________________________________________________\n");
+
+   p_symrow(0);
 }
 
 /**********************************************************************/
@@ -104,14 +124,18 @@ void p_symtab()
 /**********************************************************************/
 void addp_name(char *fpname)
 {
-
-   printf("\n *** TO BE DONE");
+   initst();
+   addrow(fpname, program, program, 0, 0);
+   startp = numrows;
 }
 
 /**********************************************************************/
 /*  Add a variable name to the symbol table                           */
 /**********************************************************************/
-void addv_name(char *fpname) { printf("\n *** TO BE DONE"); }
+void addv_name(char *fpname)
+{
+   addrow(fpname, var, nfound, 0, 0);
+}
 
 /**********************************************************************/
 /*  Find a name in the the symbol table                               */
@@ -128,8 +152,16 @@ int find_name(char *fpname)
 /**********************************************************************/
 void setv_type(toktyp ftype)
 {
-
-   printf("\n *** TO BE DONE");
+   int typeSize = 0;
+   if (ftype == integer || ftype == boolean)
+   {
+      typeSize = 4;
+   }
+   else if (ftype == real)
+   {
+      typeSize = 8;
+   }
+   
 }
 
 /**********************************************************************/
