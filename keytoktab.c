@@ -136,7 +136,9 @@ toktyp lex2tok(char *fplex)
 /**********************************************************************/
 toktyp key2tok(char *fplex)
 {
-	for (int i = 0; i < sizeof(keywordtab) / sizeof(tab); i++)
+	int size = sizeof(keywordtab) / sizeof(tab);
+
+	for (int i = 0; i < size; i++)
 	{
 		if (!strcmp(keywordtab[i].text, fplex))
 		{
