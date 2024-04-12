@@ -36,13 +36,13 @@ static int plex = 0; /* current index lexeme  buffer  */
 
 static void get_prog()
 {
-    int i = 0; 
-    while((buffer[i]=fgetc(stdin))!=EOF)
-    {
-        i++;
-    }
-    buffer[i++] = '$';
-    buffer[i] = '\0';
+   int i = 0;
+   while ((buffer[i] = fgetc(stdin)) != EOF)
+   {
+      i++;
+   }
+   buffer[i++] = '$';
+   buffer[i] = '\0';
 }
 
 /**********************************************************************/
@@ -77,40 +77,46 @@ static void get_char()
 /* Return a token                                                     */
 /**********************************************************************/
 int get_token()
-{  
-   if(pbuf == 0){
+{
+   if (pbuf == 0)
+   {
       get_prog();
       pbuffer();
    }
    memset(lexbuf, 0, LEXSIZE);
    plex = 0;
-  
 
    /*skip spaces*/
-   while(isspace(buffer[pbuf])){
+   while (isspace(buffer[pbuf]))
+   {
       pbuf++;
    }
    get_char();
 
    /*check if digit*/
-   if(isdigit(lexbuf[0])){
-      while(isdigit(buffer[pbuf])){
+   if (isdigit(lexbuf[0]))
+   {
+      while (isdigit(buffer[pbuf]))
+      {
          get_char();
       }
       return number;
    }
 
    /*check if alfabetic*/
-   if(isalpha(lexbuf[0])){
-      while(isalnum(buffer[pbuf])){
+   if (isalpha(lexbuf[0]))
+   {
+      while (isalnum(buffer[pbuf]))
+      {
          get_char();
       }
       return key2tok(lexbuf);
    }
 
    /*check if special char (:=)*/
-   if((lexbuf[0] == ':') && (buffer[pbuf] == '=')) {
-      printf("**************************************************%s***********************************%s", tok2lex(lexbuf[0]),tok2lex(buffer[pbuf-1]));
+   if ((lexbuf[0] == ':') && (buffer[pbuf] == '='))
+   {
+      printf("**************************************************%s***********************************%s", tok2lex(lexbuf[0]), tok2lex(buffer[pbuf - 1]));
       get_char();
    }
 

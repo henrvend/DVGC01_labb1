@@ -12,9 +12,9 @@
 /**********************************************************************/
 /* Other OBJECT's METHODS (IMPORTED)                                  */
 /**********************************************************************/
-#include "keytoktab.h"          /* when the keytoktab is added   */
-#include "lexer.h"              /* when the lexer     is added   */
-/* #include "symtab.h"      */ /* when the symtab    is added   */
+#include "keytoktab.h"         /* when the keytoktab is added   */
+#include "lexer.h"             /* when the lexer     is added   */
+#include "symtab.h"            /* when the symtab    is added   */
 /* #include "optab.h"       */ /* when the optab     is added   */
 
 /**********************************************************************/
@@ -64,8 +64,11 @@ static int expr();
 static void match(int t)
 {
     if (DEBUG)
+    {
         printf("\n --------In match expected: %4s, found: %4s",
                tok2lex(t), tok2lex(lookahead));
+    }
+
     if (lookahead == t)
         lookahead = get_token();
     else
@@ -83,7 +86,7 @@ static void program_header()
 {
     if (DEBUG)
     {
-        printf("\n *** In  program_header");        
+        printf("\n *** In  program_header");
     }
     match(program);
     match(id);
@@ -95,10 +98,8 @@ static void program_header()
     match(';');
     if (DEBUG)
     {
-        printf("\n *** Out  program_header");        
+        printf("\n *** Out  program_header");
     }
-
-    
 }
 
 /*var_part*/
@@ -107,24 +108,24 @@ static void type()
 {
     if (DEBUG)
     {
-        printf("\n *** In  type");        
-    }    
+        printf("\n *** In  type");
+    }
     if (lookahead == integer)
     {
         match(integer);
     }
     if (DEBUG)
     {
-        printf("\n *** Out  type");        
-    }    
+        printf("\n *** Out  type");
+    }
 }
 
 static void id_list()
 {
     if (DEBUG)
     {
-        printf("\n *** In  id_list");        
-    } 
+        printf("\n *** In  id_list");
+    }
     match(id);
     if (lookahead == ',')
     {
@@ -133,32 +134,32 @@ static void id_list()
     }
     if (DEBUG)
     {
-        printf("\n *** Out  id_list");        
-    } 
+        printf("\n *** Out  id_list");
+    }
 }
 
 static void var_dec()
 {
     if (DEBUG)
     {
-        printf("\n *** In  var_dec");        
-    } 
+        printf("\n *** In  var_dec");
+    }
     id_list();
     match(':');
     type();
     match(';');
     if (DEBUG)
     {
-        printf("\n *** Out  var_dec");        
-    } 
+        printf("\n *** Out  var_dec");
+    }
 }
 
 static void var_dec_list()
 {
     if (DEBUG)
     {
-        printf("\n *** In  var_dec_list");        
-    } 
+        printf("\n *** In  var_dec_list");
+    }
     var_dec();
     if (lookahead == id)
     {
@@ -166,15 +167,15 @@ static void var_dec_list()
     }
     if (DEBUG)
     {
-        printf("\n *** Out  var_dec_list");        
-    } 
+        printf("\n *** Out  var_dec_list");
+    }
 }
 
 static void var_part()
 {
     if (DEBUG)
     {
-        printf("\n *** In  var_part"); 
+        printf("\n *** In  var_part");
     }
 
     match(var);
@@ -182,8 +183,8 @@ static void var_part()
 
     if (DEBUG)
     {
-        printf("\n *** Out  var_part");        
-    } 
+        printf("\n *** Out  var_part");
+    }
 }
 
 /*stat_part*/
@@ -191,10 +192,9 @@ static void var_part()
 static int operand()
 {
     if (DEBUG)
-     {
+    {
         printf("\n *** In  operand");
-     } 
-
+    }
 
     int result;
     if (lookahead == id)
@@ -217,12 +217,15 @@ static int operand()
     if (DEBUG)
     {
         printf("\n *** Out  operand");
-    } 
-
+    }
 }
 
 static int factor()
 {
+    if (DEBUG)
+    {
+        printf("\n *** In  factor");
+    }
     int result;
     if (lookahead == '(')
     {
@@ -235,10 +238,19 @@ static int factor()
         result = operand();
     }
     return result;
+
+    if (DEBUG)
+    {
+        printf("\n *** Out  factor");
+    }
 }
 
 static int term()
 {
+    if (DEBUG)
+    {
+        printf("\n *** In  term");
+    }
 
     int result = factor();
     if (lookahead == '*')
@@ -247,10 +259,19 @@ static int term()
         result *= term();
     }
     return result;
+
+    if (DEBUG)
+    {
+        printf("\n *** Out  term");
+    }
 }
 
 static int expr()
 {
+    if (DEBUG)
+    {
+        printf("\n *** In  expr");
+    }
 
     int result = term();
     if (lookahead == '+')
@@ -260,13 +281,29 @@ static int expr()
     }
 
     return result;
+
+    if (DEBUG)
+    {
+        printf("\n *** Out  expr");
+    }
 }
 
 static void assign_stat()
 {
+
+    if (DEBUG)
+    {
+        printf("\n *** In  assign_stat");
+    }
+
     match(id);
     match(assign);
     expr();
+
+    if (DEBUG)
+    {
+        printf("\n *** Out  assign_stat");
+    }
 }
 
 static void stat()
@@ -274,24 +311,22 @@ static void stat()
     if (DEBUG)
     {
         printf("\n *** In  stat");
-    } 
+    }
 
     assign_stat();
 
     if (DEBUG)
     {
         printf("\n *** Out  stat");
-    } 
-
+    }
 }
-
 
 static void stat_list()
 {
-     if (DEBUG)
-     {
+    if (DEBUG)
+    {
         printf("\n *** In  stat_list");
-     } 
+    }
 
     stat();
 
@@ -300,13 +335,12 @@ static void stat_list()
         match(';');
         stat_list();
     }
-    
+
     if (DEBUG)
     {
         printf("\n *** Out  stat_list");
-    } 
+    }
 }
-
 
 static void stat_part()
 {
@@ -314,7 +348,6 @@ static void stat_part()
     {
         printf("\n *** In  stat_part");
     }
-        
 
     match(begin);
     stat_list();
@@ -324,7 +357,6 @@ static void stat_part()
     {
         printf("\n *** Out  stat_part");
     }
-        
 }
 
 /**********************************************************************/
@@ -333,19 +365,21 @@ static void stat_part()
 
 int parser()
 {
-    if (DEBUG){
+    if (DEBUG)
+    {
         printf("\n *** In  parser");
     }
-        
-    lookahead = get_token();  // get the first token
-    program_header();         // call the first grammar rule
+
+    lookahead = get_token(); // get the first token
+    program_header();        // call the first grammar rule
     var_part();
     stat_part();
 
-    if (DEBUG){
+    if (DEBUG)
+    {
         printf("\n *** Out  parser");
     }
-        
+
     return is_parse_ok; // status indicator
 }
 
