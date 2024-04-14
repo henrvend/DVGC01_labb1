@@ -11,7 +11,6 @@ $
 _________________________
 
  token is  268, lexeme is    program 
- token is  259, lexeme is            
  token is  258, lexeme is    testok1 
  token is   40, lexeme is          ( 
  token is  269, lexeme is      input 
@@ -20,7 +19,6 @@ _________________________
  token is   41, lexeme is          ) 
  token is   59, lexeme is          ; 
  token is  271, lexeme is        var 
- token is  259, lexeme is            
  token is  258, lexeme is          A 
  token is   44, lexeme is          , 
  token is  258, lexeme is          B 
@@ -30,10 +28,8 @@ _________________________
  token is  275, lexeme is    integer 
  token is   59, lexeme is          ; 
  token is  272, lexeme is      begin 
- token is  259, lexeme is           
  token is  258, lexeme is          A 
- token is   58, lexeme is          : 
- token is   61, lexeme is          = 
+ token is  260, lexeme is         := 
  token is  258, lexeme is          B 
  token is   43, lexeme is          + 
  token is  258, lexeme is          C 
