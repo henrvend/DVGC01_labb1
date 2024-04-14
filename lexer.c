@@ -116,7 +116,6 @@ int get_token()
    /*check if special char (:=)*/
    if ((lexbuf[0] == ':') && (buffer[pbuf] == '='))
    {
-      printf("**************************************************%s***********************************%s", tok2lex(lexbuf[0]), tok2lex(buffer[pbuf - 1]));
       get_char();
    }
 
