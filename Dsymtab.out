@@ -15,20 +15,20 @@ ________________________________________________________
 NAME            ROLE       TYPE       SIZE       ADDR      
 ________________________________________________________
 
-         A          var      TERROR      0      0
-         B          var      TERROR      0      0
-         C          var      TERROR      0      0
-         D          var      TERROR      0      0
-         E          var      TERROR      0      0
-         F          var      TERROR      0      0
+         A          var     integer     36      0
+         B          var     integer      4      0
+         C          var        real      8      4
+         D          var        real      8     12
+         E          var     boolean      4     20
+         F          var     boolean      4     24
 ________________________________________________________
 
-STATIC STORAGE REQUIRED is 0 BYTES
+STATIC STORAGE REQUIRED is 36 BYTES
 
 ________________________________________________________
 
  name NOT FOUND 
- name NOT FOUND 
- name NOT FOUND 
+ name FOUND 
+ name FOUND 
  name NOT FOUND 
 

@@ -85,11 +85,10 @@ static void initst()
 /**********************************************************************/
 static int get_ref(char *fpname)
 {
-   for (int i; i < numrows; i++)
+   for (int i = startp; i < numrows; i++)
    {
-      if (name[i] == fpname)
+      if (!strcmp(get_name(i), fpname))
       {
-         printf(name[i]);
          return i;
       }
    }
@@ -167,6 +166,22 @@ void setv_type(toktyp ftype)
    {
       typeSize = 8;
    }
+   for (int i = startp; i < numrows; i++)
+   {
+      if (get_type(i) == nfound)
+      {
+
+         set_type(i, ftype);
+         set_size(i, typeSize);
+         set_size(startp, get_size(startp) + typeSize);
+         if (i == startp + 1)
+         {
+            set_addr(i, 0);
+         }
+         else
+            set_addr(i, (get_size(i - 1) + get_addr(i - 1)));
+      }
+   }
 }
 
 /**********************************************************************/
@@ -174,8 +189,11 @@ void setv_type(toktyp ftype)
 /**********************************************************************/
 toktyp get_ntype(char *fpname)
 {
-   printf("\n *** TO BE DONE");
-   return 0;
+   if (find_name(fpname))
+   {
+      return (get_type(get_ref(fpname)));
+   }
+   return undef;
 }
 
 /**********************************************************************/
