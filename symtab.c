@@ -93,7 +93,6 @@ static int get_ref(char *fpname)
          return i;
       }
    }
-
    return nfound;
 }
 
@@ -105,8 +104,10 @@ static int get_ref(char *fpname)
 /**********************************************************************/
 static void p_symrow(int ftref)
 {
-   // printf("%d",name[0]);
-   printf("\n *** TO BE DONE");
+   for (int i = startp; i < numrows; i++)
+   {
+      printf("\n%10s   %10s  %10s  %5i  %5i", get_name(i), tok2lex(get_role(i)), tok2lex(get_type(i)), get_size(i), get_addr(i));
+   }
 }
 
 void p_symtab()
@@ -116,6 +117,9 @@ void p_symtab()
    printf("%-15s %-10s %-10s %-10s %-10s\n", "NAME", "ROLE", "TYPE", "SIZE", "ADDR");
    printf("________________________________________________________\n");
    p_symrow(numrows);
+   printf("\n________________________________________________________\n");
+   printf("\nSTATIC STORAGE REQUIRED is %i BYTES\n", get_size(startp));
+   printf("\n________________________________________________________\n");
 }
 
 /**********************************************************************/

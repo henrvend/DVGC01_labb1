@@ -4,19 +4,31 @@ ________________________________________________________
 NAME            ROLE       TYPE       SIZE       ADDR      
 ________________________________________________________
 
- *** TO BE DONE
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 0 BYTES
+
+________________________________________________________
+
 THE SYMBOL TABLE
 ________________________________________________________
 NAME            ROLE       TYPE       SIZE       ADDR      
 ________________________________________________________
 
- *** TO BE DONE
- *** TO BE DONE
+         A          var      TERROR      0      0
+         B          var      TERROR      0      0
+         C          var      TERROR      0      0
+         D          var      TERROR      0      0
+         E          var      TERROR      0      0
+         F          var      TERROR      0      0
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 0 BYTES
+
+________________________________________________________
+
  name NOT FOUND 
- *** TO BE DONE
  name NOT FOUND 
- *** TO BE DONE
  name NOT FOUND 
- *** TO BE DONE
  name NOT FOUND 
 

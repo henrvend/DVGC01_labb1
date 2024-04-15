@@ -110,7 +110,7 @@ static void type()
     {
         printf("\n *** In  type");
     }
-    
+
     if (lookahead == integer)
     {
         match(integer);
@@ -126,7 +126,7 @@ static void type()
         match(boolean);
         setv_type(boolean);
     }
-    
+
     if (DEBUG)
     {
         printf("\n *** Out  type");
