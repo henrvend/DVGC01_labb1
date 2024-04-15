@@ -126,9 +126,11 @@ void p_symtab()
 /**********************************************************************/
 void addp_name(char *fpname)
 {
+   
    initst();
-   addrow(fpname, program, program, 0, 0);
    startp = numrows;
+   addrow(fpname, program, program, 0, 0);
+   
 }
 
 /**********************************************************************/

@@ -15,7 +15,7 @@
 #include "keytoktab.h"         /* when the keytoktab is added   */
 #include "lexer.h"             /* when the lexer     is added   */
 #include "symtab.h"            /* when the symtab    is added   */
-/* #include "optab.h"       */ /* when the optab     is added   */
+#include "optab.h"             /* when the optab     is added   */
 
 /**********************************************************************/
 /* OBJECT ATTRIBUTES FOR THIS OBJECT (C MODULE)                       */
@@ -89,7 +89,12 @@ static void program_header()
         printf("\n *** In  program_header");
     }
     match(program);
-    match(id);
+    if (lookahead == id)
+    {
+        addp_name(get_lexeme());        
+        match(id);
+    }
+
     match('(');
     match(input);
     match(',');
@@ -139,6 +144,7 @@ static void id_list()
     {
         printf("\n *** In  id_list");
     }
+    addv_name(get_lexeme());
     match(id);
     if (lookahead == ',')
     {
@@ -387,6 +393,7 @@ int parser()
     program_header();        // call the first grammar rule
     var_part();
     stat_part();
+    p_symtab();
 
     if (DEBUG)
     {
