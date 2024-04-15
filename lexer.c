@@ -85,6 +85,7 @@ int get_token()
       get_prog();
       pbuffer();
    }
+   
    memset(lexbuf, 0, LEXSIZE);
    plex = 0;
 

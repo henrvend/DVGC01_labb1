@@ -1,47 +1,0 @@
-./buildall: line 2: $'\r': command not found
-./buildall: line 4: $'\r': command not found
-gcc: error: driver.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-./buildall: line 6: $'\r': command not found
-gcc: error: lexer.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: parser.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: symtab.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: keytoktab.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: optab.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-./buildall: line 12: $'\r': command not found
-./buildall: line 14: $'\r': command not found
-gcc: error: parser2.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: parser3.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: parser4.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-gcc: error: parser5.c: No such file or directory
-gcc: fatal error: no input files
-compilation terminated.
-./buildall: line 19: $'\r': command not found
-./buildall: line 21: $'\r': command not found
-cp: cannot stat 'parser.out': No such file or directory
-./buildall: line 24: $'\r': command not found
-gcc: error: parser.c: No such file or directory
-./buildall: line 30: $'\r': command not found
-diff: parser.old: No such file or directory
-./buildall: line 34: $'\r': command not found
-rm: cannot remove '*.o'$'\r': No such file or directory
-./buildall: line 38: $'\r': command not found
-./buildall: line 40: $'\r': command not found
-./buildall: line 41: $'\r': command not found

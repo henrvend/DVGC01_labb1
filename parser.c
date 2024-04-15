@@ -12,10 +12,10 @@
 /**********************************************************************/
 /* Other OBJECT's METHODS (IMPORTED)                                  */
 /**********************************************************************/
-#include "keytoktab.h"         /* when the keytoktab is added   */
-#include "lexer.h"             /* when the lexer     is added   */
-#include "symtab.h"            /* when the symtab    is added   */
-#include "optab.h"             /* when the optab     is added   */
+#include "keytoktab.h" /* when the keytoktab is added   */
+#include "lexer.h"     /* when the lexer     is added   */
+#include "symtab.h"    /* when the symtab    is added   */
+#include "optab.h"     /* when the optab     is added   */
 
 /**********************************************************************/
 /* OBJECT ATTRIBUTES FOR THIS OBJECT (C MODULE)                       */
@@ -57,7 +57,18 @@ static int expr();
 /**********************************************************************/
 /*  PRIVATE METHODS for this OBJECT  (using "static" in C)            */
 /**********************************************************************/
+static void success(){
+        if (is_parse_ok)
+    {
+        printf("PARSE SUCCESSFUL! \n");
+    }
+    else
+    {
+        printf("PARSE FAILED!\n");
+    }
+    printf("______________________________________");
 
+}
 /**********************************************************************/
 /* The Parser functions                                               */
 /**********************************************************************/
@@ -91,7 +102,7 @@ static void program_header()
     match(program);
     if (lookahead == id)
     {
-        addp_name(get_lexeme());        
+        addp_name(get_lexeme());
         match(id);
     }
 
@@ -393,6 +404,7 @@ int parser()
     program_header();        // call the first grammar rule
     var_part();
     stat_part();
+    success();
     p_symtab();
 
     if (DEBUG)
