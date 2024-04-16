@@ -1,1 +1,1298 @@
-testing TestSuite/*.pas
+testing TestSuite/fun1.pas
+
+_________________________
+Program Text
+program fun1(input, output);
+var A, B, A: integer;  
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      fun1      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         A          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/fun2.pas
+
+_________________________
+Program Text
+program fun2(input, output);
+var A, B, C: integer;
+
+begin
+3A := B + C * 2
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   id found: number (in match)
+ *** Unexpected Token: expected:   := found: number (in match)
+ *** Unexpected Token: expected:  end found:   id (in match)
+ *** Unexpected Token: expected:    . found:   id (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      fun2      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/fun3.pas
+
+_________________________
+Program Text
+program fun3(input, output);
+var A, B, C: integer;
+
+begin
+A :
+   = B + C * 2
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   := found:    : (in match)
+ *** Unexpected Token: expected:  end found:    : (in match)
+ *** Unexpected Token: expected:    . found:    : (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      fun3      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/fun4.pas
+
+_________________________
+Program Text
+program fun4(input, output);
+var A, B, C: integer;
+    D, E, F: integer;
+
+begin
+A := B + C * 2
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      fun4      program     program     24      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+         D          var     integer      4     12
+         E          var     integer      4     16
+         F          var     integer      4     20
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 24 BYTES
+
+________________________________________________________
+testing TestSuite/fun5.pas
+
+_________________________
+Program Text
+program fun5(input, output);
+var A, B, C: integer;
+
+begin
+A := B + C * 2
+end.
+
+OOOOPS!!!
+
+
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      fun5      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/sem1.pas
+
+_________________________
+Program Text
+program sem1(input, output);
+var A, B, C: integer;
+
+begin
+A := D + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      sem1      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/sem2.pas
+
+_________________________
+Program Text
+program sem2(input, output);
+var A, B, A: integer;
+
+begin
+A := B + C * 2
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      sem2      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         A          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/sem3.pas
+
+_________________________
+Program Text
+program sem3(input, output);
+var A, B, C: double;
+
+begin
+A := B + C * 2
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    ; found:   id (in match)
+ *** Unexpected Token: expected:    : found:    ; (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      sem3      program     program      0      0
+         A          var      TERROR      0      0
+         B          var      TERROR      0      0
+         C          var      TERROR      0      0
+    double          var      TERROR      0      0
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 0 BYTES
+
+________________________________________________________
+testing TestSuite/sem4.pas
+
+_________________________
+Program Text
+program sem4(input, output);
+var A, B, C: integer;
+    D, E, F: real;
+
+begin
+F := B + C * 2
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      sem4      program     program     36      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+         D          var        real      8     12
+         E          var        real      8     20
+         F          var        real      8     28
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 36 BYTES
+
+________________________________________________________
+testing TestSuite/sem5.pas
+
+_________________________
+Program Text
+program sem5(input, output);
+var A, B, C: integer;
+    D, E, F: real;
+
+begin
+A := D + E * 2
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+      sem5      program     program     36      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+         D          var        real      8     12
+         E          var        real      8     20
+         F          var        real      8     28
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 36 BYTES
+
+________________________________________________________
+testing TestSuite/testa.pas
+
+_________________________
+Program Text
+
+$
+_________________________
+
+ *** Unexpected Token: expected: program found:    $ (in match)
+ *** Unexpected Token: expected:    ( found:    $ (in match)
+ *** Unexpected Token: expected: input found:    $ (in match)
+ *** Unexpected Token: expected:    , found:    $ (in match)
+ *** Unexpected Token: expected: output found:    $ (in match)
+ *** Unexpected Token: expected:    ) found:    $ (in match)
+ *** Unexpected Token: expected:    ; found:    $ (in match)
+ *** Unexpected Token: expected:  var found:    $ (in match)
+ *** Unexpected Token: expected:   id found:    $ (in match)
+ *** Unexpected Token: expected:    : found:    $ (in match)
+ *** Unexpected Token: expected:    ; found:    $ (in match)
+ *** Unexpected Token: expected: begin found:    $ (in match)
+ *** Unexpected Token: expected:   id found:    $ (in match)
+ *** Unexpected Token: expected:   := found:    $ (in match)
+ *** Unexpected Token: expected:  end found:    $ (in match)
+ *** Unexpected Token: expected:    . found:    $ (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+         $          var      TERROR      0      0
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 0 BYTES
+
+________________________________________________________
+testing TestSuite/testb.pas
+
+_________________________
+Program Text
+   testb(input, output);
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected: program found:   id (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testb      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testc.pas
+
+_________________________
+Program Text
+program (input, output);
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+         A          var     integer     16      0
+         B          var     integer      4      0
+         C          var     integer      4      4
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 16 BYTES
+
+________________________________________________________
+testing TestSuite/testd.pas
+
+_________________________
+Program Text
+program testd input, output);
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    ( found: input (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testd      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/teste.pas
+
+_________________________
+Program Text
+program teste ( , output);
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected: input found:    , (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     teste      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testf.pas
+
+_________________________
+Program Text
+program testf (input  output);
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    , found: output (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testf      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testg.pas
+
+_________________________
+Program Text
+program testg (input, );
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected: output found:    ) (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testg      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testh.pas
+
+_________________________
+Program Text
+program testh (input, output ;
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    ) found:    ; (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testh      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testi.pas
+
+_________________________
+Program Text
+program testi (input, output) 
+var A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    ; found:  var (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testi      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testj.pas
+
+_________________________
+Program Text
+program testj (input, output);
+  A, B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:  var found:   id (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testj      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testk.pas
+
+_________________________
+Program Text
+program testk (input, output);
+var , B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   id found:    , (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testk      program     program     12      0
+         ,          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testl.pas
+
+_________________________
+Program Text
+program testl (input, output);
+var A  B, C: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    : found:   id (in match)
+ *** Unexpected Token: expected:    ; found:   id (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testl      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testm.pas
+
+_________________________
+Program Text
+program testm (input, output);
+var A, B, C  integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    : found: integer (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testm      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testn.pas
+
+_________________________
+Program Text
+program testn (input, output);
+var A, B, C: ;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testn      program     program      0      0
+         A          var      TERROR      0      0
+         B          var      TERROR      0      0
+         C          var      TERROR      0      0
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 0 BYTES
+
+________________________________________________________
+testing TestSuite/testo.pas
+
+_________________________
+Program Text
+program testo (input, output);
+var A, B, C: integer
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    ; found: begin (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testo      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testok1.pas
+
+_________________________
+Program Text
+program testok1(input, output);  
+var A, B, C: integer;  
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok1      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testok2.pas
+
+_________________________
+Program Text
+program testok2(input, output);
+var A, B, C: integer;  
+    D, E, F: integer;
+    G, H, I: integer;
+
+begin
+A := B + C * 2;
+D := E + F * 2;
+G := H + I * 2
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok2      program     program     36      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+         D          var     integer      4     12
+         E          var     integer      4     16
+         F          var     integer      4     20
+         G          var     integer      4     24
+         H          var     integer      4     28
+         I          var     integer      4     32
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 36 BYTES
+
+________________________________________________________
+testing TestSuite/testok3.pas
+
+_________________________
+Program Text
+program testok3(input, output);
+var A, B, C: integer;  
+
+begin
+A := 2 + 6 * 8;
+B := 3 + 9 * 1;
+C := 4 + 1 * 1
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok3      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testok4.pas
+
+_________________________
+Program Text
+program testok4(input, output);
+var A, B, C: integer;  
+    DD, EE, FF: integer;
+
+begin
+A := B + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok4      program     program     24      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+        DD          var     integer      4     12
+        EE          var     integer      4     16
+        FF          var     integer      4     20
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 24 BYTES
+
+________________________________________________________
+testing TestSuite/testok5.pas
+
+_________________________
+Program Text
+program testok5(input, output);
+var x, y, z: integer;
+    A: integer;
+    B: integer;
+    C: integer;
+
+begin
+x := y + z * 2;
+A := B + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok5      program     program     24      0
+         x          var     integer      4      0
+         y          var     integer      4      4
+         z          var     integer      4      8
+         A          var     integer      4     12
+         B          var     integer      4     16
+         C          var     integer      4     20
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 24 BYTES
+
+________________________________________________________
+testing TestSuite/testok6.pas
+
+_________________________
+Program Text
+program testok6(input, output);
+var id, number, assign: integer;
+
+begin
+id := (number + assign) * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok6      program     program     12      0
+        id          var     integer      4      0
+    number          var     integer      4      4
+    assign          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testok7.pas
+
+_________________________
+Program Text
+program testok7(input, output);
+var
+    A: integer;
+    B: integer;
+    C: integer;
+
+begin
+A := B + C * 2
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+   testok7      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testp.pas
+
+_________________________
+Program Text
+program testp (input, output);
+var A, B, C: integer;
+
+
+A := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:    : found:   := (in match)
+ *** Unexpected Token: expected:    ; found:   := (in match)
+ *** Unexpected Token: expected: begin found:   := (in match)
+ *** Unexpected Token: expected:   id found:   := (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testp      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+         A          var      TERROR      0      0
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testq.pas
+
+_________________________
+Program Text
+program testq (input, output);
+var A, B, C: integer;
+
+begin
+ := B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   id found:   := (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testq      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testr.pas
+
+_________________________
+Program Text
+program testr (input, output);
+var A, B, C: integer;
+
+begin
+ A = B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   := found:    = (in match)
+ *** Unexpected Token: expected:  end found:    = (in match)
+ *** Unexpected Token: expected:    . found:    = (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testr      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/tests.pas
+
+_________________________
+Program Text
+program tests (input, output);
+var A, B, C: integer;
+
+begin
+ A : B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   := found:    : (in match)
+ *** Unexpected Token: expected:  end found:    : (in match)
+ *** Unexpected Token: expected:    . found:    : (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     tests      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testt.pas
+
+_________________________
+Program Text
+program testt (input, output);
+var A, B, C: integer;
+
+begin
+ A  B + C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   := found:   id (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testt      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testu.pas
+
+_________________________
+Program Text
+program testu (input, output);
+var A, B, C: integer;
+
+begin
+ A := + C * 2  
+end.
+$
+_________________________
+PARSE SUCCESSFUL! 
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testu      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testv.pas
+
+_________________________
+Program Text
+program testv (input, output);
+var A, B, C: integer;
+
+begin
+ A := B  C * 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:  end found:   id (in match)
+ *** Unexpected Token: expected:    . found:   id (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testv      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testw.pas
+
+_________________________
+Program Text
+program testw (input, output);
+var A, B, C: integer;
+
+begin
+ A := B + C - 2  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:  end found:    - (in match)
+ *** Unexpected Token: expected:    . found:    - (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testw      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testx.pas
+
+_________________________
+Program Text
+program testx (input, output);
+var A, B, C: integer;
+
+begin
+ A := B + C * 2 ;  
+end.
+$
+_________________________
+
+ *** Unexpected Token: expected:   id found:  end (in match)
+ *** Unexpected Token: expected:   := found:  end (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testx      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testy.pas
+
+_________________________
+Program Text
+program testy (input, output);
+var A, B, C: integer;
+
+begin
+ A := B + C * 2
+.
+$
+_________________________
+
+ *** Unexpected Token: expected:  end found:    . (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testy      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
+testing TestSuite/testz.pas
+
+_________________________
+Program Text
+program testz (input, output);
+var A, B, C: integer;
+
+begin
+ A := B + C * 2
+end 
+$
+_________________________
+
+ *** Unexpected Token: expected:    . found:    $ (in match)PARSE FAILED!
+______________________________________
+THE SYMBOL TABLE
+________________________________________________________
+NAME            ROLE       TYPE       SIZE       ADDR      
+________________________________________________________
+
+     testz      program     program     12      0
+         A          var     integer      4      0
+         B          var     integer      4      4
+         C          var     integer      4      8
+________________________________________________________
+
+STATIC STORAGE REQUIRED is 12 BYTES
+
+________________________________________________________
