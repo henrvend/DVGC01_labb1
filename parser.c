@@ -1,4 +1,4 @@
-/**********************************************************************/
+    /**********************************************************************/
 /* lab 1 DVG C01 - Parser OBJECT                                      */
 /**********************************************************************/
 
@@ -24,7 +24,7 @@
 static int lookahead = 0;
 static int is_parse_ok = 1;
 
-static int expr();
+static toktyp expr();
 
 /**********************************************************************/
 /* RAPID PROTOTYPING - simulate the token stream & lexer (get_token)  */
@@ -63,11 +63,8 @@ static void success()
     {
         printf("PARSE SUCCESSFUL! \n");
     }
-    else
-    {
-        printf("PARSE FAILED!\n");
-    }
-    printf("______________________________________");
+    
+    printf("________________________________________________________");
 }
 
 /*Error handling*/
@@ -91,6 +88,19 @@ static void error_type()
 { 
     printf("\nSYNTAX: Type expected, found: %s", get_lexeme());
     is_parse_ok = 0; 
+}
+static void error_undeclared(){
+    printf("\nSEMANTIC: ID NOT declared: %s\n", get_lexeme());
+    //printf()
+    is_parse_ok = 0; 
+}
+static void error_duplicate(){
+    printf("\nSEMANTIC: ID already declared\n");
+    is_parse_ok = 0;
+}
+static void error_assign(char * left, char *right){
+    printf("\nSEMANTIC: Assign types: %s := %s", left, right);
+    is_parse_ok = 0;
 }
 
 
@@ -139,10 +149,7 @@ static void program_header()
 
 static void type()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  type");
-    }
+    if (DEBUG) printf("\n *** In  type");
 
     if (lookahead == integer)
     {
@@ -165,10 +172,7 @@ static void type()
         setv_type(error);
     }
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  type");
-    }
+    if (DEBUG) printf("\n *** Out  type");
 }
 
 static void id_list()
@@ -179,8 +183,12 @@ static void id_list()
     }
     if (lookahead == id)
     {
-        addv_name(get_lexeme());
-        match(id);
+        if(!find_name(get_lexeme())){
+            addv_name(get_lexeme());
+            match(id);
+        }else{
+            error_duplicate();
+        }
     }
     else
     {
@@ -239,7 +247,14 @@ static toktyp operand()
     toktyp result;
     if (lookahead == id)
     {
-        match(id);
+        if(find_name(get_lexeme())){
+            match(id);
+        }
+        else{
+            error_undeclared();
+            match(id);
+        }
+        
         result = id;
         return result;
     }
@@ -319,6 +334,9 @@ static void assign_stat()
     if (DEBUG) printf("\n *** In  assign_stat");
 
     if(lookahead == id){
+        if(!find_name(get_lexeme())){
+            error_undeclared();
+        }
         match(id);
     }else{
         error_id();
@@ -331,25 +349,16 @@ static void assign_stat()
 
 static void stat()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  stat");
-    }
+    if (DEBUG) printf("\n *** In  stat");
 
     assign_stat();
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  stat");
-    }
+    if (DEBUG) printf("\n *** Out  stat");
 }
 
 static void stat_list()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  stat_list");
-    }
+    if (DEBUG) printf("\n *** In  stat_list");
 
     stat();
 
@@ -359,10 +368,8 @@ static void stat_list()
         stat_list();
     }
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  stat_list");
-    }
+    if (DEBUG) printf("\n *** Out  stat_list");
+
 }
 
 static void stat_part()

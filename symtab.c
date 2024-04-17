@@ -105,19 +105,19 @@ static void p_symrow(int ftref)
 {
    for (int i = startp; i < ftref; i++)
    {
-      printf("\n%10s   %10s  %10s  %5i  %5i", get_name(i), tok2lex(get_role(i)), tok2lex(get_type(i)), get_size(i), get_addr(i));
+      printf("%11s %10s %10s %9i %9i\n", get_name(i), tok2lex(get_role(i)), tok2lex(get_type(i)), get_size(i), get_addr(i));
    }
 }
 
 void p_symtab()
 {
-   printf("\nTHE SYMBOL TABLE\n");
+   printf("\n THE SYMBOL TABLE\n");
    printf("________________________________________________________\n");
-   printf("%-15s %-10s %-10s %-10s %-10s\n", "NAME", "ROLE", "TYPE", "SIZE", "ADDR");
+   printf("%11s %10s %10s %9s %9s\n", "NAME", "ROLE", "TYPE", "SIZE", "ADDR");
    printf("________________________________________________________\n");
    p_symrow(numrows);
-   printf("\n________________________________________________________\n");
-   printf("\nSTATIC STORAGE REQUIRED is %i BYTES\n", get_size(startp));
+   printf("________________________________________________________\n");
+   printf("\n STATIC STORAGE REQUIRED is %i BYTES\n", get_size(startp));
    printf("\n________________________________________________________\n");
 }
 
