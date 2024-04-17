@@ -71,35 +71,34 @@ static void success()
 
 static void error_id()
 {
-    printf("\nSYNTAX: ID expected, found: %s\n", get_lexeme());
+    printf("SYNTAX: ID expected, found: %s\r", get_lexeme());
     is_parse_ok = 0;
 }
 static void error_symbol(char *symbol)
 {
-    printf("\nSYNTAX: Symbol expected: %s, found: %s\n", symbol, get_lexeme());
+    printf("SYNTAX:   Symbol expected %s found %s\r", symbol, get_lexeme());
     is_parse_ok = 0;
 }
 static void error_operand() 
 {
-    printf("\nSYNTAX: Operand expected\n");
+    printf("SYNTAX: Operand expected\r");
     is_parse_ok = 0;
 }
 static void error_type() 
 { 
-    printf("\nSYNTAX: Type expected, found: %s", get_lexeme());
+    printf("SYNTAX:   Type name expected found %s\r", get_lexeme());
     is_parse_ok = 0; 
 }
 static void error_undeclared(){
-    printf("\nSEMANTIC: ID NOT declared: %s\n", get_lexeme());
-    //printf()
+    printf("SEMANTIC: ID NOT declared: %s\r", get_lexeme());
     is_parse_ok = 0; 
 }
 static void error_duplicate(){
-    printf("\nSEMANTIC: ID already declared\n");
+    printf("SEMANTIC: ID already declared: %s\r", get_lexeme());
     is_parse_ok = 0;
 }
 static void error_assign(char * left, char *right){
-    printf("\nSEMANTIC: Assign types: %s := %s", left, right);
+    printf("SEMANTIC: Assign types: %s := %s\r", left, right);
     is_parse_ok = 0;
 }
 
@@ -185,10 +184,11 @@ static void id_list()
     {
         if(!find_name(get_lexeme())){
             addv_name(get_lexeme());
-            match(id);
+            
         }else{
             error_duplicate();
         }
+        match(id);
     }
     else
     {
@@ -247,21 +247,17 @@ static toktyp operand()
     toktyp result;
     if (lookahead == id)
     {
-        if(find_name(get_lexeme())){
-            match(id);
+        if(!find_name(get_lexeme())){
+           error_undeclared();
         }
-        else{
-            error_undeclared();
-            match(id);
-        }
-        
-        result = id;
+        result = get_ntype(get_lexeme());
+        match(id);
         return result;
     }
     else if (lookahead == number)
     {
         match(number);
-        result = number;
+        result = integer;
         return result;
     }
     else
@@ -290,10 +286,8 @@ static toktyp factor()
     }
     return result;
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  factor");
-    }
+    if (DEBUG) printf("\n *** Out  factor");
+
 }
 
 static toktyp term()
@@ -304,12 +298,11 @@ static toktyp term()
     if (lookahead == '*')
     {
         match('*');
-        result *= term();
+        result = get_otype('*', result, term());
     }
     return result;
 
     if (DEBUG) printf("\n *** Out  term");
-
 }
 
 static toktyp expr()
@@ -333,6 +326,9 @@ static void assign_stat()
 
     if (DEBUG) printf("\n *** In  assign_stat");
 
+    toktyp right;
+    toktyp left = get_ntype(get_lexeme());
+
     if(lookahead == id){
         if(!find_name(get_lexeme())){
             error_undeclared();
@@ -341,8 +337,14 @@ static void assign_stat()
     }else{
         error_id();
     }
+    
     (lookahead == assign)   ? match(assign): error_symbol(":=");
-    expr();
+    
+    right = expr();
+    //expr();
+    if(left != right){
+        error_assign(tok2lex(left), tok2lex(right));
+    }
 
     if (DEBUG) printf("\n *** Out  assign_stat");
 }
@@ -374,19 +376,14 @@ static void stat_list()
 
 static void stat_part()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  stat_part");
-    }
+    if (DEBUG) printf("\n *** In  stat_part");
 
-    match(begin);
+    (lookahead == begin)    ? match(begin)  : error_symbol("begin");
     stat_list();
-    match(end);
-    match('.');
-    if (DEBUG)
-    {
-        printf("\n *** Out  stat_part");
-    }
+    (lookahead == end)      ? match(end)    : error_symbol("end");
+    (lookahead == '.')      ? match('.')    : error_symbol(".");
+
+    if (DEBUG) printf("\n *** Out  stat_part");
 }
 
 /**********************************************************************/
