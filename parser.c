@@ -69,6 +69,31 @@ static void success()
     }
     printf("______________________________________");
 }
+
+/*Error handling*/
+
+static void error_id()
+{
+    printf("\nSYNTAX: ID expected, found: %s\n", get_lexeme());
+    is_parse_ok = 0;
+}
+static void error_symbol(char *symbol)
+{
+    printf("\nSYNTAX: Symbol expected: %s, found: %s\n", symbol, get_lexeme());
+    is_parse_ok = 0;
+}
+static void error_operand() 
+{
+    printf("\nSYNTAX: Operand expected\n");
+    is_parse_ok = 0;
+}
+static void error_type() 
+{ 
+    printf("\nSYNTAX: Type expected, found: %s", get_lexeme());
+    is_parse_ok = 0; 
+}
+
+
 /**********************************************************************/
 /* The Parser functions                                               */
 /**********************************************************************/
@@ -96,50 +121,18 @@ static void match(int t)
 /**********************************************************************/
 static void program_header()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  program_header");
-    }
-    if (lookahead == program)
-    {
-        match(program);
-    }
-    else
-    {
-        is_parse_ok = 0;
-    }
+    if (DEBUG) printf("\n *** In  program_header");
 
-    if (lookahead == id)
-    {
-        addp_name(get_lexeme());
-        match(id);
-    }
+    (lookahead == program)  ? match(program)                        : error_symbol("Program");
+    (lookahead == id)       ? (addp_name(get_lexeme()), match(id))  : error_id();
+    (lookahead == '(')      ? match('(')                            : error_symbol("(");
+    (lookahead == input)    ? match(input)                          : error_symbol("Input");
+    (lookahead == ',')      ? match(',')                            : error_symbol(",");
+    (lookahead == output)   ? match(output)                         : error_symbol("output");
+    (lookahead == ')')      ? match(')')                            : error_symbol(")");
+    (lookahead == ';')      ? match(';')                            : error_symbol(";");
 
-    if (lookahead == '(')
-    {
-        match('(');
-    }
-    else
-    {
-        is_parse_ok = 0;
-    }
-    if (lookahead == input)
-    {
-        match(input);
-    }
-    else
-    {
-        is_parse_ok = 0;
-    }
-
-    match(',');
-    match(output);
-    match(')');
-    match(';');
-    if (DEBUG)
-    {
-        printf("\n *** Out  program_header");
-    }
+    if (DEBUG) printf("\n *** Out  program_header");
 }
 
 /*var_part*/
@@ -168,7 +161,8 @@ static void type()
     }
     else
     {
-        is_parse_ok = 0;
+        error_type();
+        setv_type(error);
     }
 
     if (DEBUG)
@@ -183,78 +177,66 @@ static void id_list()
     {
         printf("\n *** In  id_list");
     }
-    addv_name(get_lexeme());
-    match(id);
+    if (lookahead == id)
+    {
+        addv_name(get_lexeme());
+        match(id);
+    }
+    else
+    {
+        error_id();
+    }
+
     if (lookahead == ',')
     {
         match(',');
         id_list();
     }
-    if (DEBUG)
-    {
-        printf("\n *** Out  id_list");
-    }
+
+    if (DEBUG) printf("\n *** Out  id_list");
 }
 
 static void var_dec()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  var_dec");
-    }
+    if (DEBUG) printf("\n *** In  var_dec");
+    
     id_list();
-    match(':');
+    (lookahead==':')    ? match(':')    : error_symbol(":");
     type();
-    match(';');
-    if (DEBUG)
-    {
-        printf("\n *** Out  var_dec");
-    }
+    (lookahead == ';')  ? match(';')    : error_symbol(";");
+    
+    if (DEBUG) printf("\n *** Out  var_dec");
+
 }
 
 static void var_dec_list()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  var_dec_list");
-    }
+    if (DEBUG) printf("\n *** In  var_dec_list");
+    
     var_dec();
-    if (lookahead == id)
-    {
-        var_dec_list();
-    }
-    if (DEBUG)
-    {
-        printf("\n *** Out  var_dec_list");
-    }
+    if (lookahead == id) var_dec_list();
+
+    if (DEBUG) printf("\n *** Out  var_dec_list");
+
 }
 
 static void var_part()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  var_part");
-    }
+    if (DEBUG) printf("\n *** In  var_part");
 
-    match(var);
+    (lookahead == var)  ? match(var)    : error_symbol("var");
     var_dec_list();
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  var_part");
-    }
+    if (DEBUG) printf("\n *** Out  var_part");
 }
 
 /*stat_part*/
 
-static int operand()
+static toktyp operand()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  operand");
-    }
+    if (DEBUG) printf("\n *** In  operand");
 
-    int result;
+    toktyp result;
     if (lookahead == id)
     {
         match(id);
@@ -269,21 +251,17 @@ static int operand()
     }
     else
     {
-        return 0;
+        error_operand();
+        return error;
     }
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  operand");
-    }
+    if (DEBUG) printf("\n *** Out  operand");
 }
 
-static int factor()
+static toktyp factor()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  factor");
-    }
+    if (DEBUG) printf("\n *** In  factor");
+
     int result;
     if (lookahead == '(')
     {
@@ -303,12 +281,9 @@ static int factor()
     }
 }
 
-static int term()
+static toktyp term()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  term");
-    }
+    if (DEBUG) printf("\n *** In  term");
 
     int result = factor();
     if (lookahead == '*')
@@ -318,50 +293,40 @@ static int term()
     }
     return result;
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  term");
-    }
+    if (DEBUG) printf("\n *** Out  term");
+
 }
 
-static int expr()
+static toktyp expr()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  expr");
-    }
+    if (DEBUG) printf("\n *** In  expr");
 
-    int result = term();
+    toktyp result = term();
     if (lookahead == '+')
     {
         match('+');
-        result += expr();
+        result = get_otype('+', result, expr());
     }
 
+    if (DEBUG) printf("\n *** Out  expr");
+    
     return result;
-
-    if (DEBUG)
-    {
-        printf("\n *** Out  expr");
-    }
 }
 
 static void assign_stat()
 {
 
-    if (DEBUG)
-    {
-        printf("\n *** In  assign_stat");
-    }
+    if (DEBUG) printf("\n *** In  assign_stat");
 
-    match(id);
-    match(assign);
+    if(lookahead == id){
+        match(id);
+    }else{
+        error_id();
+    }
+    (lookahead == assign)   ? match(assign): error_symbol(":=");
     expr();
 
-    if (DEBUG)
-    {
-        printf("\n *** Out  assign_stat");
-    }
+    if (DEBUG) printf("\n *** Out  assign_stat");
 }
 
 static void stat()
