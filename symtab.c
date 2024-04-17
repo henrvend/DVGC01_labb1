@@ -103,7 +103,7 @@ static int get_ref(char *fpname)
 /**********************************************************************/
 static void p_symrow(int ftref)
 {
-   for (int i = startp; i < numrows; i++)
+   for (int i = startp; i < ftref; i++)
    {
       printf("\n%10s   %10s  %10s  %5i  %5i", get_name(i), tok2lex(get_role(i)), tok2lex(get_type(i)), get_size(i), get_addr(i));
    }

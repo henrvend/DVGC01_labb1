@@ -57,8 +57,9 @@ static int expr();
 /**********************************************************************/
 /*  PRIVATE METHODS for this OBJECT  (using "static" in C)            */
 /**********************************************************************/
-static void success(){
-        if (is_parse_ok)
+static void success()
+{
+    if (is_parse_ok)
     {
         printf("PARSE SUCCESSFUL! \n");
     }
@@ -67,7 +68,6 @@ static void success(){
         printf("PARSE FAILED!\n");
     }
     printf("______________________________________");
-
 }
 /**********************************************************************/
 /* The Parser functions                                               */
@@ -82,6 +82,7 @@ static void match(int t)
 
     if (lookahead == t)
         lookahead = get_token();
+
     else
     {
         is_parse_ok = 0;
@@ -99,15 +100,38 @@ static void program_header()
     {
         printf("\n *** In  program_header");
     }
-    match(program);
+    if (lookahead == program)
+    {
+        match(program);
+    }
+    else
+    {
+        is_parse_ok = 0;
+    }
+
     if (lookahead == id)
     {
         addp_name(get_lexeme());
         match(id);
     }
 
-    match('(');
-    match(input);
+    if (lookahead == '(')
+    {
+        match('(');
+    }
+    else
+    {
+        is_parse_ok = 0;
+    }
+    if (lookahead == input)
+    {
+        match(input);
+    }
+    else
+    {
+        is_parse_ok = 0;
+    }
+
     match(',');
     match(output);
     match(')');
@@ -141,6 +165,10 @@ static void type()
     {
         match(boolean);
         setv_type(boolean);
+    }
+    else
+    {
+        is_parse_ok = 0;
     }
 
     if (DEBUG)
