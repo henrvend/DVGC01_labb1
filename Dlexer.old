@@ -1,4 +1,6 @@
-________________________________________________________ THE PROGRAM TEXT________________________________________________________
+
+_________________________
+Program Text
 program testok1(input, output);  
 var A, B, C: integer;  
 
@@ -6,7 +8,8 @@ begin
 A := B + C * 2  
 end.
 $
-________________________________________________________
+_________________________
+
  token is  268, lexeme is    program 
  token is  258, lexeme is    testok1 
  token is   40, lexeme is          ( 

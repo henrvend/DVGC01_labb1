@@ -61,7 +61,7 @@ static void success()
 {
     if (is_parse_ok)
     {
-        printf("PARSE SUCCESSFUL! \n");
+        printf("PARSE SUCCESSFUL!\r");
     }
     
     printf("________________________________________________________");
@@ -101,6 +101,10 @@ static void error_assign(char * left, char *right){
     printf("SEMANTIC: Assign types: %s := %s\r", left, right);
     is_parse_ok = 0;
 }
+static void error_empty_file(){
+    printf("SYNTAX:   Input file is empty\r");
+    is_parse_ok = 0;
+}
 
 
 /**********************************************************************/
@@ -133,7 +137,13 @@ static void program_header()
     if (DEBUG) printf("\n *** In  program_header");
 
     (lookahead == program)  ? match(program)                        : error_symbol("Program");
-    (lookahead == id)       ? (addp_name(get_lexeme()), match(id))  : error_id();
+    if(lookahead == id){
+        addp_name(get_lexeme());
+        match(id); 
+    } else{
+        error_id();
+        addp_name("???");
+    }      
     (lookahead == '(')      ? match('(')                            : error_symbol("(");
     (lookahead == input)    ? match(input)                          : error_symbol("Input");
     (lookahead == ',')      ? match(',')                            : error_symbol(",");
@@ -392,22 +402,22 @@ static void stat_part()
 
 int parser()
 {
-    if (DEBUG)
-    {
-        printf("\n *** In  parser");
-    }
+    if (DEBUG) printf("\n *** In  parser");
 
     lookahead = get_token(); // get the first token
-    program_header();        // call the first grammar rule
-    var_part();
-    stat_part();
-    success();
-    p_symtab();
-
-    if (DEBUG)
-    {
-        printf("\n *** Out  parser");
+    if(lookahead < 0 || lookahead == '$'){
+        error_empty_file();
+    }else{
+        program_header();        // call the first grammar rule
+        var_part();
+        stat_part();
+        success();
+        
     }
+   
+    p_symtab();
+    
+    if (DEBUG) printf("\n *** Out  parser");
 
     return is_parse_ok; // status indicator
 }
