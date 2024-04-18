@@ -1,4 +1,6 @@
-    /**********************************************************************/
+/**********************************************************************/
+/* Henrik Vendel                                                      */
+/* Adam Brattström                                                    */
 /* lab 1 DVG C01 - Parser OBJECT                                      */
 /**********************************************************************/
 
@@ -61,7 +63,7 @@ static void success()
 {
     if (is_parse_ok)
     {
-        printf("PARSE SUCCESSFUL!\r");
+        printf("PARSE SUCCESSFUL!\n");
     }
     
     printf("________________________________________________________");
@@ -71,7 +73,7 @@ static void success()
 
 static void error_id()
 {
-    printf("SYNTAX: ID expected, found: %s\r", get_lexeme());
+    printf("SYNTAX:   ID expected found %s\r", get_lexeme());
     is_parse_ok = 0;
 }
 static void error_symbol(char *symbol)
@@ -81,7 +83,7 @@ static void error_symbol(char *symbol)
 }
 static void error_operand() 
 {
-    printf("SYNTAX: Operand expected\r");
+    printf("SYNTAX:   Operand Expected\r");
     is_parse_ok = 0;
 }
 static void error_type() 
@@ -104,6 +106,10 @@ static void error_assign(char * left, char *right){
 static void error_empty_file(){
     printf("SYNTAX:   Input file is empty\r");
     is_parse_ok = 0;
+}
+static void error_symbol_after_end(){
+    printf("SYNTAX:   Extra symbols after end of parse!\r");
+    is_parse_ok =0;
 }
 
 
@@ -136,7 +142,7 @@ static void program_header()
 {
     if (DEBUG) printf("\n *** In  program_header");
 
-    (lookahead == program)  ? match(program)                        : error_symbol("Program");
+    (lookahead == program)  ? match(program)    : error_symbol("program");
     if(lookahead == id){
         addp_name(get_lexeme());
         match(id); 
@@ -144,12 +150,12 @@ static void program_header()
         error_id();
         addp_name("???");
     }      
-    (lookahead == '(')      ? match('(')                            : error_symbol("(");
-    (lookahead == input)    ? match(input)                          : error_symbol("Input");
-    (lookahead == ',')      ? match(',')                            : error_symbol(",");
-    (lookahead == output)   ? match(output)                         : error_symbol("output");
-    (lookahead == ')')      ? match(')')                            : error_symbol(")");
-    (lookahead == ';')      ? match(';')                            : error_symbol(";");
+    (lookahead == '(')      ? match('(')        : error_symbol("(");
+    (lookahead == input)    ? match(input)      : error_symbol("input");
+    (lookahead == ',')      ? match(',')        : error_symbol(",");
+    (lookahead == output)   ? match(output)     : error_symbol("output");
+    (lookahead == ')')      ? match(')')        : error_symbol(")");
+    (lookahead == ';')      ? match(';')        : error_symbol(";");
 
     if (DEBUG) printf("\n *** Out  program_header");
 }
@@ -337,11 +343,13 @@ static void assign_stat()
     if (DEBUG) printf("\n *** In  assign_stat");
 
     toktyp right;
-    toktyp left = get_ntype(get_lexeme());
+    toktyp left = error;
 
     if(lookahead == id){
         if(!find_name(get_lexeme())){
             error_undeclared();
+        }else{
+            left=get_ntype(get_lexeme());
         }
         match(id);
     }else{
@@ -351,7 +359,6 @@ static void assign_stat()
     (lookahead == assign)   ? match(assign): error_symbol(":=");
     
     right = expr();
-    //expr();
     if(left != right){
         error_assign(tok2lex(left), tok2lex(right));
     }
@@ -392,6 +399,16 @@ static void stat_part()
     stat_list();
     (lookahead == end)      ? match(end)    : error_symbol("end");
     (lookahead == '.')      ? match('.')    : error_symbol(".");
+    if (lookahead!='$') {
+        error_symbol_after_end();
+        printf("          ");
+        while(lookahead!='$'){
+            printf("%s ",get_lexeme(lookahead));
+            match(lookahead);
+        }
+        printf("\r");
+        
+    } 
 
     if (DEBUG) printf("\n *** Out  stat_part");
 }
